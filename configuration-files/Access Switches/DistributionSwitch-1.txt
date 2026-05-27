@@ -64,7 +64,11 @@ ip address 10.0.0.9 255.255.255.252
 description Link-To-CoreSwitch-0
 ip ospf network point-to-point
 
+int loopback 0
+ip address 2.2.2.2 255.255.255.255
+
 router ospf 2
+router-id 2.2.2.2
 network 192.168.0.0 0.0.0.31 area 0
 network 10.0.0.0 0.0.0.15 area 0
 passive-interface vlan 10

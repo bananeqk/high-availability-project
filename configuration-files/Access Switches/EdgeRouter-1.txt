@@ -1,0 +1,31 @@
+hostname EdgeRouter-1
+
+int g0/0
+ip address 10.0.0.22 255.255.255.252
+ip ospf network point-to-point
+
+int g0/1
+ip address dhcp
+
+int g0/2 
+ip address dhcp
+
+int loopback 0
+ip address 6.6.6.6 255.255.255.255
+
+router ospf 6
+network 10.0.0.20 255.255.255.252 area 0
+router-id 6.6.6.6
+default-information originate metric 100
+
+ip sla 1
+icmp-echo 8.8.8.8 source-interface GigabitEthernet0/1
+frequency 5
+
+ip sla schedule 1 life forever start-time now
+
+track 1 ip sla 1 reachability
+
+ip route 0.0.0.0 0.0.0.0 198.51.100.1 track 1
+ip route 0.0.0.0 0.0.0.0 203.0.113.1 10
+

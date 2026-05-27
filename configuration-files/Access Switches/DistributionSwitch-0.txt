@@ -74,14 +74,15 @@ ip address 10.0.0.5 255.255.255.252
 description Link-To-CoreSwitch-1
 ip ospf network point-to-point
 
+int loopback0
+ip address 1.1.1.1 255.255.255.255
+
 router ospf 1
-network 192.168.0.0 0.0.0.31 area 0
-network 10.0.0.0 0.0.0.15 area 0
+network 192.168.0.0 0.0.0.255 area 0
+network 10.0.0.0 0.0.0.63 area 0
 router-id 1.1.1.1
 passive-interface vlan 10
 passive-interface vlan 11
 passive-interface vlan 12
 passive-interface vlan 13
 
-int loopback0
-ip address 1.1.1.1 255.255.255.255

@@ -1,0 +1,42 @@
+hostname EdgeRouter-0
+
+int g0/0
+ip address 10.0.0.18 255.255.255.252
+ip nat inside
+
+int g0/1
+ip address dhcp
+ip nat outside
+
+int g0/2 
+ip address dhcp
+ip nat outside
+
+int loopback 0
+ip address 5.5.5.5 255.255.255.255
+
+router ospf 5 
+network 10.0.0.16 0.0.0.3 area 0
+router-id 5.5.5.5
+default-information originate
+
+int g0/0
+ip address 10.0.0.18 255.255.255.252
+ip ospf network point-to-point
+
+ip sla 1
+icmp-echo 8.8.8.8 source-interface GigabitEthernet0/1
+frequency 5
+
+ip sla schedule 1 life forever start-time now
+
+track 1 ip sla 1 reachability
+
+ip route 0.0.0.0 0.0.0.0 203.0.113.1 track 1
+ip route 0.0.0.0 0.0.0.0 198.51.100.1 10
+
+ip nat inside source list VLAN_NAT interface GigabitEthernet0/1 overload
+
+ip access-list standard VLAN_NAT
+permit 192.168.0.0 0.0.0.255
+permit 10.0.0.0 0.0.0.63

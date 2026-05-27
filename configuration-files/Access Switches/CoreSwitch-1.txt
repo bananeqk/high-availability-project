@@ -1,18 +1,20 @@
 int g0/0
-ip address 10.0.0.2 255.255.255.252
-description Link-To-DistributionSwitch-0
-ip ospf network point-to-point
-
-int g1/1
-ip address 10.0.0.10 255.255.255.252
+no switchport
+ip address 10.0.0.14 255.255.255.252
 description Link-To-DistributionSwitch-1
 ip ospf network point-to-point
 
-int loopback0
-ip address 3.3.3.3 255.255.255.255
+int g1/1
+no switchport
+ip address 10.0.0.6 255.255.255.252
+description Link-To-DistributionSwitch-0
+ip ospf network point-to-point
 
-router ospf 3
-router-id 3.3.3.3
+int loopback0
+ip address 4.4.4.4 255.255.255.255
+
+router ospf 4
+router-id 4.4.4.4
 network 10.0.0.0 0.0.0.63 area 0
 
 int range g0/1 - 3
@@ -22,7 +24,7 @@ channel-group 1 mode active
 
 int Port-channel1
 no switchport
-ip address 10.0.0.25 255.255.255.252
+ip address 10.0.0.26 255.255.255.252
 
 int g1/0
 ip ospf network point-to-point
