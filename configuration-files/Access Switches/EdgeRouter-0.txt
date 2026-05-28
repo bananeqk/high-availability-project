@@ -1,32 +1,35 @@
 hostname EdgeRouter-0
 
-int g0/0
-ip address 10.0.0.18 255.255.255.252
-ip nat inside
+interface GigabitEthernet0/0
+    ip address 10.0.0.18 255.255.255.252
+    ip nat inside
+    ip ospf network point-to-point
 
-int g0/1
-ip address dhcp
-ip nat outside
+interface GigabitEthernet0/1
+    ip address dhcp
+    ip nat outside
 
-int g0/2 
-ip address dhcp
-ip nat outside
+interface GigabitEthernet0/2 
+    ip address dhcp
+    ip nat outside
 
-int loopback 0
-ip address 5.5.5.5 255.255.255.255
+interface loopback 0
+    ip address 5.5.5.5 255.255.255.255
 
 router ospf 5 
-network 10.0.0.16 0.0.0.3 area 0
-router-id 5.5.5.5
-default-information originate
+    network 10.0.0.16 0.0.0.3 area 0
+    router-id 5.5.5.5
+    default-information originate always metric 10
 
-int g0/0
-ip address 10.0.0.18 255.255.255.252
-ip ospf network point-to-point
+interface GigabitEthernet0/0
+    ip address 10.0.0.18 255.255.255.252
+    ip ospf network point-to-point
 
 ip sla 1
-icmp-echo 8.8.8.8 source-interface GigabitEthernet0/1
-frequency 5
+    icmp-echo 8.8.8.8 source-interface GigabitEthernet0/1
+    frequency 10
+    timeout 5000
+    threshold 5000
 
 ip sla schedule 1 life forever start-time now
 
@@ -35,8 +38,16 @@ track 1 ip sla 1 reachability
 ip route 0.0.0.0 0.0.0.0 203.0.113.1 track 1
 ip route 0.0.0.0 0.0.0.0 198.51.100.1 10
 
-ip nat inside source list VLAN_NAT interface GigabitEthernet0/1 overload
-
 ip access-list standard VLAN_NAT
-permit 192.168.0.0 0.0.0.255
-permit 10.0.0.0 0.0.0.63
+1 permit 192.168.0.0 0.0.0.255
+
+route-map NAT_ISP-0 permit 10
+    match ip address VLAN_NAT
+    match interface GigabitEthernet0/1
+
+route-map NAT_ISP-1 permit 10
+    match ip address VLAN_NAT
+    match interface GigabitEthernet0/2
+
+ip nat inside source route-map NAT_ISP-0 interface GigabitEthernet0/1 overload
+ip nat inside source route-map NAT_ISP-1 interface GigabitEthernet0/2 overload
