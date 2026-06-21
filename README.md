@@ -55,5 +55,16 @@ Here is the list of all technology and protocols that have been used in the the 
 | NTP    | planned                                                                                                                                                        |
 | AD     | Active Directory, domain controller on Windows Server                                                                                                          |
 | HSRP   | Gateway redundancy for all VLANs, DS-0 and DS-1 function as primary gateway and backup for all VLANs in the LAN, Priority 110 (Primary), Priority 100 (Backup) |
+| NAT failover | |
 | Syslog | planned                                                                                                                                                        |
+
+## Security and hardening devices
+| Name                  | Description                                                                                                                                        |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| Line access | Securing VTY line and console line using secret password and service encryption                                                                  |
+| SSH                   | VTY lines 0-15 can only be accessed by SSH                                                                                                         |
+| ACL                   | Network devices only accept VLAN 100 for management                                                                                                |
+| Port Security         | Access ports, sticky mac addresses, violation restrict (syslog planned)                                                                            |
+| ARP Inspection (DAI)  | IP SRC-MAC DST-MAC validation, securing LAN from MitM attacks and ARP spoofing, limit rate 30, enabled on AS-0 and AS-1, uplinks marked as trusted |
+| DHCP Snooping         | Securing LAN from rogue DHCP servers, limit rate 10, enabled on AS-0 and AS-1, uplinks marked as trusted                                           |
 
