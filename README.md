@@ -1,4 +1,4 @@
-# Redundant Three-Tier Enterprise Network
+# Enterprise Network Architecture
 Project simulates Three-Tier architecture with Dual ISP failover (with Internet access via GNS3 NAT), using Cisco devices (Routers, switches) and VPCS representing computers only to test connectivity.
 
 Designed to explore LAN architecture, redundancy and multilayer switching beyond the CCNA level.
@@ -62,7 +62,7 @@ Here is the list of all technology and protocols that have been used in the the 
 | Syslog | planned                                                                                                                                                        |
 
 > [!NOTE]
-> The GNS3 NAT node may have issues resolving DNS queries. Sometimes LAN hosts need access to Internet-0 and Internet-0 to be able to send traffic to external network like Google's DNS.
+> The GNS3 NAT node may have issues resolving DNS queries. Sometimes LAN hosts need access to Internet-0 and Internet-1 to be able to send traffic to external network like Google's DNS.
 
 ## Security and hardening devices
 | Name                  | Description                                                                                                                                        |
@@ -73,4 +73,31 @@ Here is the list of all technology and protocols that have been used in the the 
 | Port Security         | Access ports, sticky mac addresses, violation restrict (syslog planned)                                                                            |
 | ARP Inspection (DAI)  | IP SRC-MAC DST-MAC validation, securing LAN from MitM attacks and ARP spoofing, limit rate 30, enabled on AS-0 and AS-1, uplinks marked as trusted |
 | DHCP Snooping         | Securing LAN from rogue DHCP servers, limit rate 10, enabled on AS-0 and AS-1, uplinks marked as trusted                                           |
+
+## Verification
+![Switching](switching.png)
+![Routing](routing.png)
+![Standby](standby.png)
+![NAT](nat.png)
+![DAI, DHCP Snooping](dai.png)
+![IP SLA, Track](track_ipsla.png)
+![Connectivity, SSH](connectivity.png)
+
+## Tools and sources used
+- GNS3 Virtual Machine, Version: 2.2.56.1
+- GNS3 GUI, Version: 2.2.56.1
+- Windows Server 2022 21H2
+- Ubuntu Cloud Desktop 25.10 (Questing Quokka)
+- Cisco documentation [Link to website](https://www.cisco.com/c/en/us/tech/index.html)
+- Microsoft Learn [Link to webiste](https://learn.microsoft.com/pl-pl/troubleshoot/windows-server/welcome-windows-server)
+- GNS3 Documentation [Link to webiste](https://docs.gns3.com/docs/)
+
+# Author
+**Szymon Garncarz**
+<br>
+_Aspiring Network Enginner | CCNA CSCO15045190_
+
+# Links
+My profile on **LinkedIn**<br>
+[Link to linkedIn](https://www.linkedin.com/in/szymongarncarz/)
 
